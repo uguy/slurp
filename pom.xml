@@ -14,6 +14,7 @@
     <version>0.0.8.2</version>
     <packaging>jar</packaging>
     <name>slurp app</name>
+    <description>slurp application</description>
 
     <prerequisites>
         <maven>3.0.0</maven>
