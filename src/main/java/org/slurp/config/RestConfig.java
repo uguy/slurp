@@ -49,17 +49,14 @@ public class RestConfig extends RouteBuilder {
 
 		// configure we want to use netty as the component for the rest DSL
 		// and we enable json binding mode
-		restConfiguration().component("netty4-http")
-				.bindingMode(RestBindingMode.json)
+		restConfiguration().component("netty4-http").bindingMode(RestBindingMode.json)
 				.enableCORS(true)
 				// and output using pretty print
 				.dataFormatProperty("prettyPrint", "true")
 				// setup context path and port number that netty will use
-				.contextPath("/").port(8080)
-				.host("0.0.0.0")
+				.contextPath("/").port(8080).host("0.0.0.0")
 				// add swagger api-doc out of the box
-				.apiContextPath("/api-doc")
-				.apiProperty("api.title", "Slurp API")
+				.apiContextPath("/api-doc").apiProperty("api.title", "Slurp API")
 				.apiProperty("api.version", "1.0.0")
 				// and enable CORS
 				.apiProperty("cors", "true");
@@ -89,13 +86,13 @@ public class RestConfig extends RouteBuilder {
 
 	}
 
-	private RestDefinition configureManagementRoutes(
-			RestDefinition restDefinition) {
+	private RestDefinition configureManagementRoutes(RestDefinition restDefinition) {
 		LOG.info("Configure Management rest routes");
 		String prefix = management.getContextPath();
 		if (StringUtils.hasText(prefix)) {
 			prefix = prefix.endsWith("/") ? prefix : prefix + "/";
-		} else {
+		}
+		else {
 			prefix = "/";
 		}
 
@@ -108,8 +105,7 @@ public class RestConfig extends RouteBuilder {
 						.process("authenticationService").policy(adminPolicy)
 						.process(new Processor() {
 							@Override
-							public void process(Exchange exchange)
-									throws Exception {
+							public void process(Exchange exchange) throws Exception {
 								exchange.getIn().setBody(endpoint.invoke());
 							}
 						}).endRest();
@@ -141,25 +137,23 @@ public class RestConfig extends RouteBuilder {
 		LOG.info("Configure User rest routes");
 		restDefinition.get("/users/{id}").description("Find user by id")
 				.outType(User.class).param().name("id").type(path)
-				.description("The id of the user to get").dataType("int")
-				.endParam().route().routeId("user-get")
+				.description("The id of the user to get").dataType("int").endParam()
+				.route().routeId("user-get")
 				.to("bean:userService?method=getUser(${header.id})").endRest()
 
-				.post("/users").description("Creates a user").type(User.class)
-				.param().name("body").type(body)
-				.description("The user to create").endParam().route()
-				.routeId("user-post").to("bean:userService?method=createUser")
+				.post("/users").description("Creates a user").type(User.class).param()
+				.name("body").type(body).description("The user to create").endParam()
+				.route().routeId("user-post").to("bean:userService?method=createUser")
 				.endRest()
 
-				.put("/users").description("Updates a user").type(User.class)
-				.param().name("body").type(body)
-				.description("The user to update").endParam().route()
-				.routeId("user-put").to("bean:userService?method=updateUser")
+				.put("/users").description("Updates a user").type(User.class).param()
+				.name("body").type(body).description("The user to update").endParam()
+				.route().routeId("user-put").to("bean:userService?method=updateUser")
 				.endRest()
 
-				.get("/users/").description("Find all users")
-				.outTypeList(User.class).route().routeId("user-list")
-				.to("bean:userService?method=listUsers").endRest();
+				.get("/users/").description("Find all users").outTypeList(User.class)
+				.route().routeId("user-list").to("bean:userService?method=listUsers")
+				.endRest();
 
 		return restDefinition;
 	}

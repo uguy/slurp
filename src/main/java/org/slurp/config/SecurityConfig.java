@@ -1,4 +1,5 @@
 package org.slurp.config;
+
 import static java.util.Arrays.asList;
 
 import java.util.List;
@@ -19,7 +20,8 @@ public class SecurityConfig {
 
 	@Bean
 	public AffirmativeBased accessDecisionManager() {
-		AffirmativeBased accessDecisionManager = new AffirmativeBased(asList(new RoleVoter()));
+		AffirmativeBased accessDecisionManager = new AffirmativeBased(
+				asList(new RoleVoter()));
 		accessDecisionManager.setAllowIfAllAbstainDecisions(true);
 		return accessDecisionManager;
 	}

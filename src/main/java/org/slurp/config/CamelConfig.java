@@ -27,7 +27,8 @@ public class CamelConfig {
 			@Override
 			public void beforeApplicationStart(CamelContext context) {
 
-				context.setNameStrategy(new ExplicitCamelContextNameStrategy("slurp-context"));
+				context.setNameStrategy(new ExplicitCamelContextNameStrategy(
+						"slurp-context"));
 
 				LOG.info("Configuring camel metrics on all routes");
 				MetricsRoutePolicyFactory fac = new MetricsRoutePolicyFactory();
